@@ -151,7 +151,7 @@ export class GameScene extends THREE.Scene {
 
         // Add event listeners
         window.onblur = () => {
-            this.paused = true;
+            this.handlePause(true)
         }
 
         // Game start on mouse start
@@ -160,7 +160,9 @@ export class GameScene extends THREE.Scene {
         })
 
         document.addEventListener('keydown', (e) => {
-            if (e.code === 'Space') {this.paused = !this.paused;}
+            if (e.code === 'Space') {
+                this.handlePause(!this.paused)
+            }
             if (!this.paused) {
                 if (e.code === 'ArrowLeft') {
                     this.moveLeft()
@@ -170,6 +172,28 @@ export class GameScene extends THREE.Scene {
                 }
             }
         })
+
+        document.getElementById('play')!.addEventListener('mousedown', () => {
+            this.handlePause(true)
+        })
+
+        document.getElementById('pause')!.addEventListener('mousedown', () => {
+            this.handlePause(false)
+        })
+    }
+
+    handlePause(pause: boolean) {
+        if (!this.isGameStarted) return
+
+        this.paused = pause
+
+        if (this.paused) {
+            document.getElementById('play')!.style.visibility = 'hidden';
+            document.getElementById('pause')!.style.visibility = 'visible';
+        } else {
+            document.getElementById('play')!.style.visibility = 'visible';
+            document.getElementById('pause')!.style.visibility = 'hidden';
+        }
     }
 
     moveLeft() {
@@ -291,6 +315,7 @@ export class GameScene extends THREE.Scene {
         this.playerAnimation?.clipAction(this.playerAnimations[PLAYER_ANIMATIONS.RUN]).play();
         moveCameraTo(this.camera, 0, 6, 10);
         document.getElementById('startingMenu')!.style.display = 'none';
+        document.getElementById('play')!.style.visibility = 'visible';
     }
 }
 

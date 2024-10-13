@@ -30,6 +30,22 @@ html {
   transform: translate(-50%, -50%);
 }
 
+#play {
+  position: absolute;
+  top: -8%;
+  left: -4%;
+  scale: 0.4;
+  visibility: hidden;
+}
+
+#pause {
+  position: absolute;
+  top: -8%;
+  left: -4%;
+  scale: 0.4;
+  visibility: hidden;
+}
+
 @keyframes move-left-right {
   0% {
     left: 45%;
