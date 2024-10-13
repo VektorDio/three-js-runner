@@ -55,9 +55,9 @@ export class GameScene extends THREE.Scene {
 
         // Load and set all assets
         const [playerData, brainData, trackSegmentData] = await Promise.all([
-            loader('/assets/Stickman.glb'),
-            loader('assets/Brain.glb'),
-            loader('/assets/TrackFloor.glb'),
+            loader('./assets/Stickman.glb'),
+            loader('./assets/Brain.glb'),
+            loader('./assets/TrackFloor.glb'),
         ]);
 
         this.player = playerData.scene;
