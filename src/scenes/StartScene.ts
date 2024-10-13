@@ -90,22 +90,15 @@ export class GameScene extends THREE.Scene {
             newTrack.copy(this.trackSegment!, true);
             newTrack.translateZ(i * -25);
 
-            if (i >= 2 && i % 2) {
+            if (i % 2) {
                 this.generateBrains(newTrack);
             }
             this.track[i] = newTrack;
             this.add(newTrack);
         }
 
-        // Add event listeners
-        window.onblur = () => {
-            this.paused = true;
-        }
-
-        // Game start on mouse start
-        if (!this.isGameStarted) {
-            document.onmousedown = () => this.startGame();
-        }
+        // Add controls
+        this.detectControls()
     }
 
     setupLights() {
@@ -131,8 +124,6 @@ export class GameScene extends THREE.Scene {
     }
 
     detectControls() {
-        if (!this.isGameStarted) return
-
         let touchstartX = 0
         let touchendX = 0
 
@@ -152,27 +143,33 @@ export class GameScene extends THREE.Scene {
         document.addEventListener('touchend', e => {
             touchendX = e.changedTouches[0].screenX
             if (!this.isGameStarted) {
-                document.onmousedown = () => this.startGame();
+                this.startGame();
             } else if (!this.paused) {
                 checkDirection()
             }
         })
 
-        document.onkeydown = (e) => {
+        // Add event listeners
+        window.onblur = () => {
+            this.paused = true;
+        }
+
+        // Game start on mouse start
+        document.addEventListener("mousedown", () => {
+            this.startGame()
+        })
+
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {this.paused = !this.paused;}
             if (!this.paused) {
                 if (e.code === 'ArrowLeft') {
-
                     this.moveLeft()
                 }
                 if (e.code === 'ArrowRight') {
                     this.moveRight()
                 }
             }
-
-            if (e.code === 'Space') {
-                this.paused = !this.paused;
-            }
-        }
+        })
     }
 
     moveLeft() {
@@ -240,8 +237,6 @@ export class GameScene extends THREE.Scene {
 
     update() {
         const delta = this.clock.getDelta();
-
-        this.detectControls()
 
         if (!this.paused) {
             this.playerAnimation?.update(delta);
