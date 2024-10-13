@@ -1,15 +1,42 @@
 import './style.css'
 import * as THREE from 'three';
+import {GameScene} from "./scenes/StartScene.ts";
+// import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
 
-// Initialize Three.js
-const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.set(2, 2, 4);
-camera.lookAt(0, 0, 0);
-const renderer = new THREE.WebGLRenderer();
 
+const renderer = new THREE.WebGLRenderer({
+    canvas: document.querySelector('#bg') as HTMLCanvasElement,
+});
+
+renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-// Render the scene
-renderer.render(scene, camera);
+// const controls = new OrbitControls( camera, renderer.domElement );
+// controls.update();
+
+function onWindowResize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+}
+
+window.addEventListener('resize', onWindowResize);
+
+const gameScene = new GameScene(camera, renderer);
+
+function animate() {
+    requestAnimationFrame(animate);
+
+    gameScene.update();
+
+    //controls.update();
+    renderer.render(gameScene, camera);
+}
+
+animate();
+
+
+
