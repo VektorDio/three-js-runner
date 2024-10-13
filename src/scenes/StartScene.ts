@@ -311,11 +311,13 @@ export class GameScene extends THREE.Scene {
     }
 
     startGame() {
-        this.isGameStarted = true;
-        this.playerAnimation?.clipAction(this.playerAnimations[PLAYER_ANIMATIONS.RUN]).play();
-        moveCameraTo(this.camera, 0, 6, 10);
-        document.getElementById('startingMenu')!.style.display = 'none';
-        document.getElementById('play')!.style.visibility = 'visible';
+        if (!this.isGameStarted) {
+            this.isGameStarted = true;
+            this.playerAnimation?.clipAction(this.playerAnimations[PLAYER_ANIMATIONS.RUN]).play();
+            moveCameraTo(this.camera, 0, 6, 10);
+            document.getElementById('startingMenu')!.style.display = 'none';
+            document.getElementById('play')!.style.visibility = 'visible';
+        }
     }
 }
 
