@@ -23,6 +23,7 @@ const maxBrains = 10
 export class GameScene extends THREE.Scene {
     isGameStarted = false;
     paused = false;
+    score = 0;
     camera: THREE.PerspectiveCamera;
     renderer: THREE.WebGLRenderer;
     playerAnimation: THREE.AnimationMixer | null = null;
@@ -268,6 +269,7 @@ export class GameScene extends THREE.Scene {
             if (this.isGameStarted) {
                 this.updateTracks(delta);
                 this.detectCollisions();
+                document.getElementById('scoreBoard')!.innerHTML = `Score: ` + this.score
             }
 
             TWEEN.update();
@@ -299,11 +301,11 @@ export class GameScene extends THREE.Scene {
                 if (child.name === 'Brain' && child.visible) {
                     const brainBox = new THREE.Box3().setFromObject(child);
 
-
                     // Hide brain and recolor player
                     if (playerBox.intersectsBox(brainBox)) {
                         child.visible = false;
                         colorObject(this.player!, child.userData.color);
+                        this.score += 1
                     }
                 }
             });
@@ -317,6 +319,7 @@ export class GameScene extends THREE.Scene {
             moveCameraTo(this.camera, 0, 6, 10);
             document.getElementById('startingMenu')!.style.display = 'none';
             document.getElementById('play')!.style.visibility = 'visible';
+            document.getElementById('scoreBoard')!.style.visibility = 'visible'
         }
     }
 }

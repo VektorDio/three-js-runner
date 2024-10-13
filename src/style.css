@@ -44,6 +44,17 @@ html {
   cursor: pointer;
 }
 
+#scoreBoard {
+  position: fixed;
+  top: 20px;
+  left: 47%;
+  z-index: 1000;
+  visibility: hidden;
+  font-family: Arial, sans-serif;
+  font-size: 32px;
+  color: white;
+}
+
 @media (max-width: 768px) {
   #controlIcons {
     top: 10px;
