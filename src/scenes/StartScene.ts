@@ -17,8 +17,9 @@ enum COLORS {
     PURPLE = 'purple',
 }
 
-const minBrains = 5
-const maxBrains = 10
+const minBrains = 2
+const maxBrains = 8
+const brainChance = 0.7
 
 export class GameScene extends THREE.Scene {
     isGameStarted = false;
@@ -230,8 +231,8 @@ export class GameScene extends THREE.Scene {
     }
 
     generateBrains(track: THREE.Object3D) {
-        // Brains have 50% chance to generate
-        if (Math.random() <= 0.5) return;
+        // Brains have 70% chance to generate
+        if (Math.random() <= brainChance) return;
 
         const numberOfBrains = Math.floor(Math.random() * (maxBrains - minBrains) + minBrains);
 
@@ -294,7 +295,10 @@ export class GameScene extends THREE.Scene {
 
     detectCollisions() {
         if (!this.player) return
-        const playerBox = new THREE.Box3().setFromObject(this.player);
+        const scaledPlayer = this.player.clone(true)
+        scaledPlayer.scale.set(0.6, 0.6, 0.6);
+        const playerBox = new THREE.Box3().setFromObject(scaledPlayer);
+
 
         this.track.forEach((track) => {
             track.children.forEach((child) => {
