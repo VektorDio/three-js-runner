@@ -1,0 +1,1 @@
+*{box-sizing:border-box}body,html{width:100vw;height:100vh;margin:0;padding:0;overflow:hidden}#hand{position:absolute;top:80%;left:50%;transform:translate(-50%,-50%);animation:move-left-right 2s ease-in-out infinite;scale:.5}#handText{position:absolute;top:75%;left:50%;transform:translate(-50%,-50%)}@keyframes move-left-right{0%{left:45%}50%{left:55%}to{left:45%}}
